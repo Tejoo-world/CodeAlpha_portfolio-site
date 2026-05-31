@@ -2,11 +2,6 @@ import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Briefcase, FolderGit2, ArrowUpRight, Play, Pause, RotateCcw, Volume2, Video } from 'lucide-react';
 
-// @ts-ignore
-import w1Video from '../assets/images/w1_demo.mp4';
-// @ts-ignore
-import w2Video from '../assets/images/w2_demo.mp4';
-
 interface WorkSectionProps {
   work: any[];
 }
@@ -219,7 +214,7 @@ function CompactVideoPlayer({ title, projectId }: { title: string; projectId: st
   };
 
   // Assign the permanent imported video assets
-  const videoUrlToUse = projectId === 'w1' ? w1Video : projectId === 'w2' ? w2Video : null;
+  const videoUrlToUse = projectId === 'w1' ? '/w1_demo.mp4' : projectId === 'w2' ? '/w2_demo.mp4' : null;
 
   // Calculate percentage of current timeline
   const durationGoal = videoRef.current?.duration || 10;
