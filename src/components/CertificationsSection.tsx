@@ -28,8 +28,8 @@ export default function CertificationsSection({ name }: CertificationsSectionPro
       id: "cert3",
       title: "Full-Stack Web Engineering & C/C++ Dev Residency",
       organization: "Next Step Dev Labs",
-      date: "2024",
-      code: "REG: NSL-FULLSTK-2024",
+      date: "2026",
+      code: "REG: NSL-FULLSTK-2026",
       color: "rgba(217, 70, 239, 0.4)"
     }
   ];

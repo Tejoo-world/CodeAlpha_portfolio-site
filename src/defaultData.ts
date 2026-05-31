@@ -34,14 +34,14 @@ export const defaultPortfolioData: PortfolioData = {
   qualifications: [
     {
       id: "q1",
-      year: "2023 - Present",
+      year: "2025 - 2028",
       degree: "B.Tech in Biotechnology",
       institution: "Invertis University, Bareilly",
-      description: "Currently pursuing. Focused on study of biotechnology, innovation, molecular biology and professional communication."
+      description: "Focused on study of biochemistry, microbiology, genetics, and molecular biology with computing methodologies."
     },
     {
       id: "q2",
-      year: "Completed 2023",
+      year: "Completed 2024",
       degree: "Class 12 (PCB)",
       institution: "Vinyaas Public School, Kanpur",
       description: "Completed Grade 12 focusing on Physics, Chemistry, Biology, and foundational sciences."

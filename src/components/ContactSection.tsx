@@ -63,7 +63,7 @@ export default function ContactSection({ email, onSendMessage }: ContactSectionP
           <div className="col-span-1 lg:col-span-5 flex flex-col justify-between space-y-8 bg-[#091124] p-6 md:p-8 rounded-none border border-[#1e293b]/60 nano-glow-magenta">
             <div className="space-y-6">
               <h3 className="text-lg font-bold font-mono uppercase tracking-wider text-purple-400">
-                Primary Channels
+                Contact Info
               </h3>
               <p className="text-xs text-slate-400 leading-relaxed font-sans italic">
                 Thank you for reviewing my details. Feel free to connect directly using any of my official channels listed below.

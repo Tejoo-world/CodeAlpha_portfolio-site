@@ -22,8 +22,14 @@ export default function App() {
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        // Automatically migrate if name matches placeholder from previous builds or does not have new skills
-        if (parsed.name === "Aria Chen" || !parsed.skills || !parsed.skills.some((s: any) => s.name.includes("UI/UX"))) {
+        // Automatically migrate if name matches placeholder from previous builds or does not have new skills or contains old timeline dates
+        if (
+          parsed.name === "Aria Chen" || 
+          !parsed.skills || 
+          !parsed.skills.some((s: any) => s.name.includes("UI/UX")) ||
+          !parsed.qualifications ||
+          parsed.qualifications.some((q: any) => q.year === "2023 - 2025" || q.year === "Completed 2023")
+        ) {
           localStorage.removeItem('user_portfolio_cache');
           return defaultPortfolioData;
         }

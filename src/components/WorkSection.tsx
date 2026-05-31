@@ -1,60 +1,11 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Briefcase, FolderGit2, ArrowUpRight, Play, Pause, RotateCcw, Volume2, Video, Upload, Trash2, Loader2 } from 'lucide-react';
+import { Briefcase, FolderGit2, ArrowUpRight, Play, Pause, RotateCcw, Volume2, Video } from 'lucide-react';
 
-// Simple IndexedDB Utility for storing large video files in browser
-const DB_NAME = 'ProjectVideoDB';
-const STORE_NAME = 'videos';
-
-function openVideoDB(): Promise<IDBDatabase> {
-  return new Promise((resolve, reject) => {
-    const request = indexedDB.open(DB_NAME, 1);
-    request.onupgradeneeded = () => {
-      const db = request.result;
-      if (!db.objectStoreNames.contains(STORE_NAME)) {
-        db.createObjectStore(STORE_NAME);
-      }
-    };
-    request.onsuccess = () => resolve(request.result);
-    request.onerror = () => reject(request.error);
-  });
-}
-
-function saveVideoBlob(projectId: string, blob: Blob): Promise<void> {
-  return openVideoDB().then((db) => {
-    return new Promise<void>((resolve, reject) => {
-      const tx = db.transaction(STORE_NAME, 'readwrite');
-      const store = tx.objectStore(STORE_NAME);
-      store.put(blob, projectId);
-      tx.oncomplete = () => resolve();
-      tx.onerror = () => reject(tx.error);
-    });
-  });
-}
-
-function getVideoBlob(projectId: string): Promise<Blob | null> {
-  return openVideoDB().then((db) => {
-    return new Promise<Blob | null>((resolve, reject) => {
-      const tx = db.transaction(STORE_NAME, 'readonly');
-      const store = tx.objectStore(STORE_NAME);
-      const request = store.get(projectId);
-      request.onsuccess = () => resolve(request.result || null);
-      request.onerror = () => reject(request.error);
-    });
-  });
-}
-
-function deleteVideoBlob(projectId: string): Promise<void> {
-  return openVideoDB().then((db) => {
-    return new Promise<void>((resolve, reject) => {
-      const tx = db.transaction(STORE_NAME, 'readwrite');
-      const store = tx.objectStore(STORE_NAME);
-      store.delete(projectId);
-      tx.oncomplete = () => resolve();
-      tx.onerror = () => reject(tx.error);
-    });
-  });
-}
+// @ts-ignore
+import w1Video from '../assets/images/w1_demo.mp4';
+// @ts-ignore
+import w2Video from '../assets/images/w2_demo.mp4';
 
 interface WorkSectionProps {
   work: any[];
@@ -222,30 +173,7 @@ export default function WorkSection({ work }: WorkSectionProps) {
 function CompactVideoPlayer({ title, projectId }: { title: string; projectId: string }) {
   const [isPlaying, setIsPlaying] = React.useState(false);
   const [currentTime, setCurrentTime] = React.useState(0);
-  const [customVideoUrl, setCustomVideoUrl] = React.useState<string | null>(null);
-  const [isDbLoading, setIsDbLoading] = React.useState(true);
   const videoRef = React.useRef<HTMLVideoElement | null>(null);
-  const fileInputRef = React.useRef<HTMLInputElement | null>(null);
-
-  // Load custom video from IndexedDB on mount
-  React.useEffect(() => {
-    let activeObjUrl: string | null = null;
-    getVideoBlob(projectId)
-      .then((blob) => {
-        if (blob) {
-          activeObjUrl = URL.createObjectURL(blob);
-          setCustomVideoUrl(activeObjUrl);
-        }
-      })
-      .catch((e) => console.error("Error reading video from DB:", e))
-      .finally(() => setIsDbLoading(false));
-
-    return () => {
-      if (activeObjUrl) {
-        URL.revokeObjectURL(activeObjUrl);
-      }
-    };
-  }, [projectId]);
 
   // Sync state loop progress timer
   React.useEffect(() => {
@@ -290,54 +218,8 @@ function CompactVideoPlayer({ title, projectId }: { title: string; projectId: st
     setCurrentTime(0);
   };
 
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setIsDbLoading(true);
-      try {
-        await saveVideoBlob(projectId, file);
-        if (customVideoUrl) {
-          URL.revokeObjectURL(customVideoUrl);
-        }
-        const newUrl = URL.createObjectURL(file);
-        setCustomVideoUrl(newUrl);
-        setIsPlaying(false);
-        setCurrentTime(0);
-        if (videoRef.current) {
-          videoRef.current.load();
-        }
-      } catch (e) {
-        console.error("Failed to save custom video demonstration:", e);
-      } finally {
-        setIsDbLoading(false);
-      }
-    }
-  };
-
-  const handleDeleteCustomVideo = async () => {
-    setIsDbLoading(true);
-    try {
-      await deleteVideoBlob(projectId);
-      if (customVideoUrl) {
-        URL.revokeObjectURL(customVideoUrl);
-      }
-      setCustomVideoUrl(null);
-      setIsPlaying(false);
-      setCurrentTime(0);
-      if (videoRef.current) {
-        videoRef.current.load();
-      }
-    } catch (e) {
-      console.error("Failed to reset custom video demonstration:", e);
-    } finally {
-      setIsDbLoading(false);
-    }
-  };
-
-  // Beautiful cyber stock fallback video loop
-  const defaultVideoUrl = "https://player.vimeo.com/external/371433846.sd.mp4?s=236da2f3c02afdc2bf03d98be2c90069f1bf512e&profile_id=139&oauth2_token_id=57447761";
-
-  const videoUrlToUse = customVideoUrl || defaultVideoUrl;
+  // Assign the permanent imported video assets
+  const videoUrlToUse = projectId === 'w1' ? w1Video : projectId === 'w2' ? w2Video : null;
 
   // Calculate percentage of current timeline
   const durationGoal = videoRef.current?.duration || 10;
@@ -345,27 +227,12 @@ function CompactVideoPlayer({ title, projectId }: { title: string; projectId: st
 
   return (
     <div className="relative border border-[#1e293b] bg-[#030712] overflow-hidden rounded-none p-1 font-mono transition-all hover:border-cyan-500/30 group/player shadow-inner">
-      <input 
-        type="file" 
-        ref={fileInputRef} 
-        onChange={handleFileChange} 
-        accept="video/mp4, video/webm, video/quicktime, video/*" 
-        className="hidden" 
-      />
-
       {/* Playback Container Frame */}
       <div className="relative aspect-video w-full bg-slate-950 overflow-hidden border border-slate-900 flex items-center justify-center">
-        {isDbLoading ? (
-          <div className="absolute inset-0 bg-slate-950/90 z-20 flex flex-col items-center justify-center gap-2">
-            <Loader2 className="w-6 h-6 text-cyan-400 animate-spin" />
-            <span className="text-[9px] text-cyan-400 tracking-wider">LOADING VIDEO...</span>
-          </div>
-        ) : null}
-
         {/* Core Video Player */}
         <video
           ref={videoRef}
-          src={videoUrlToUse}
+          src={videoUrlToUse || ""}
           loop
           muted
           playsInline
@@ -380,11 +247,13 @@ function CompactVideoPlayer({ title, projectId }: { title: string; projectId: st
         {/* Ambient Overlay metadata tags */}
         <div className="absolute top-2 left-2 z-25 flex items-center gap-2 bg-black/75 px-2 py-1 text-[8px] font-bold text-cyan-400 tracking-wider uppercase border border-cyan-500/20">
           <span className={`w-1.5 h-1.5 rounded-full bg-red-400 ${isPlaying ? 'animate-ping' : ''}`}></span>
-          <span>{customVideoUrl ? "Uploaded Demonstration" : "Default 10-Sec Demo Video"}</span>
+          <span>
+            {projectId === 'w1' ? "Next Step Learning Hub Walkthrough" : "Portfolio Interactive Demo"}
+          </span>
         </div>
 
         <div className="absolute top-2 right-2 z-25 bg-black/75 px-2 py-0.5 text-[8px] font-bold text-slate-400 tracking-widest border border-slate-800">
-          MAX // {Math.floor(videoRef.current?.duration || 10)}s
+          LOCKED ASSET // 00:{Math.floor(videoRef.current?.duration || 10)}s
         </div>
 
         {/* Animated Sound Waveforms Simulator (only operates while playing!) */}
@@ -403,7 +272,7 @@ function CompactVideoPlayer({ title, projectId }: { title: string; projectId: st
 
         {/* Centered Large Play Overlay Trigger */}
         <AnimatePresence>
-          {!isPlaying && !isDbLoading && (
+          {!isPlaying && (
             <motion.button
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -450,30 +319,9 @@ function CompactVideoPlayer({ title, projectId }: { title: string; projectId: st
 
         {/* Dynamic Video Action Buttons */}
         <div className="flex items-center gap-2 justify-end">
-          <button
-            type="button"
-            onClick={() => fileInputRef.current?.click()}
-            className="px-2 py-1 bg-cyan-950/30 hover:bg-cyan-900/30 border border-cyan-800 hover:border-cyan-400 text-cyan-400 text-[8px] uppercase tracking-wider flex items-center gap-1 cursor-pointer transition-all"
-            title="Upload custom scientific video illustration"
-          >
-            <Upload size={10} />
-            <span>Upload MP4</span>
-          </button>
-
-          {customVideoUrl && (
-            <button
-              type="button"
-              onClick={handleDeleteCustomVideo}
-              className="p-1 bg-red-950/20 hover:bg-red-900/30 border border-red-900 hover:border-red-500 text-red-400 hover:text-red-305 transition-all cursor-pointer"
-              title="Reset to Stock Simulation"
-            >
-              <Trash2 size={10} />
-            </button>
-          )}
-
-          <div className="hidden md:flex items-center gap-1 text-slate-500">
-            <Volume2 size={10} className="text-cyan-500/60" />
-            <span className="text-[8px] uppercase tracking-wider text-cyan-400/80 font-bold">1080P</span>
+          <div className="flex items-center gap-1.5 text-slate-500 mr-1">
+            <Volume2 size={10} className="text-cyan-500/60 animate-pulse" />
+            <span className="text-[8px] uppercase tracking-wider text-[#b2f1fc] font-bold">1080P // ARCHIVED DEMO</span>
           </div>
         </div>
       </div>
