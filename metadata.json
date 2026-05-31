@@ -1,0 +1,6 @@
+{
+  "name": "Personal Portfolio",
+  "description": "A highly polished, responsive personal portfolio showcasing introduction, personal info, qualification, work, skills, and contact details with smooth scrolling and animations.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
