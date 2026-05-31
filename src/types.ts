@@ -35,6 +35,7 @@ export interface PortfolioData {
   tagline: string;
   bio: string;
   avatarUrl: string;
+  avatarRotation?: number;
   personalDetails: PersonalDetails[];
   skills: Skill[];
   qualifications: Qualification[];

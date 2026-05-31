@@ -1,93 +1,81 @@
 import { PortfolioData } from './types';
 
 export const defaultPortfolioData: PortfolioData = {
-  name: "Aria Chen",
-  role: "Creative Technologist & Interaction Designer",
-  tagline: "Bridging the gap between robust system engineering and visual sensory design.",
-  bio: "I am a multi-disciplinary developer dedicated to building fluid, accessible, and high-fidelity interactive experiences. With 5+ years of experience crossing the boundaries of frontend architectures, fine arts, and human-computer interaction, I turn complex data spaces into beautifully simple digital products.",
-  avatarUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=300&auto=format&fit=crop",
-  email: "aria.chen@example.com",
+  name: "Radhika Omar",
+  role: "Biotechnology Engineer & Web Developer",
+  tagline: "Bridging the gap between biotechnology innovation, computational logic, and modern web systems.",
+  bio: "I am a highly motivated, growth-oriented Biotechnology student with a profound passion for scientific innovation, entrepreneurial setups, and digital systems design. By blending structural scientific principles of molecular biology with computational engineering, I build solutions that remove digital obstacles for learners and researchers alike.\n\nCurrently, I am actively honing my credentials as a full-stack engineer, specializing in robust Frontend Development, intuitive UI/UX Design patterns, Responsive Web Systems, and optimized C/C++ algorithms. Driven by a relentless work ethic, I bring strong communication, debating expertise, dynamic group leadership, and an analytical mindset to engineering problems. I excel at bridging the gap between biological concepts and physical code, helping teams scale ideas wisdom-first.",
+  avatarUrl: "/src/assets/images/biotech_illustration_1780210614506.png",
+  avatarRotation: 0,
+  email: "omarradhika94@gmail.com",
   personalDetails: [
-    { label: "Location", value: "San Francisco, California", icon: "MapPin" },
-    { label: "Experience", value: "5+ Years Professional", icon: "Briefcase" },
-    { label: "Availability", value: "Open to select roles", icon: "Sparkles" },
-    { label: "Languages", value: "English, Mandarin, JavaScript", icon: "Languages" },
-    { label: "Education", value: "B.S. Computer Science & Design", icon: "GraduationCap" },
-    { label: "Website", value: "ariachen.dev", icon: "Globe" }
+    { label: "Phone", value: "9956494942", icon: "Phone" },
+    { label: "Email", value: "omarradhika94@gmail.com", icon: "Mail" },
+    { label: "Location", value: "Kanpur / Bareilly, India", icon: "MapPin" },
+    { label: "Education", value: "B.Tech in Biotechnology", icon: "GraduationCap" }
   ],
   skills: [
-    // Tech skills
-    { name: "React / Next.js", level: 95, category: "frontend" },
-    { name: "TypeScript / ESNext", level: 90, category: "frontend" },
-    { name: "Tailwind CSS & Motion", level: 95, category: "frontend" },
-    { name: "Three.js & WebGL", level: 80, category: "frontend" },
-    { name: "Node.js / Express", level: 85, category: "backend" },
-    { name: "GraphQL & REST APIs", level: 88, category: "backend" },
-    { name: "SQL & NoSQL Systems", level: 75, category: "backend" },
-    { name: "UI/UX & Figma", level: 90, category: "design" },
-    { name: "Framer & Prototyping", level: 92, category: "design" },
-    { name: "Motion & Animation Systems", level: 85, category: "design" },
-    // Personal skills
-    { name: "Creative Problem Solving", level: 100, category: "personal" },
-    { name: "Empathetic Communication", level: 95, category: "personal" },
-    { name: "Technical Mentorship", level: 85, category: "personal" },
-    { name: "Product Design Strategy", level: 90, category: "personal" },
-    { name: "Collaborative Leadership", level: 92, category: "personal" }
+    // Tech skills from CV
+    { name: "Frontend Development", level: 90, category: "frontend" },
+    { name: "Full-Stack Development", level: 82, category: "backend" },
+    { name: "UI/UX Design", level: 88, category: "design" },
+    { name: "AI Prompting & Engineering", level: 85, category: "other" },
+    { name: "Web Development", level: 85, category: "frontend" },
+    { name: "C/C++ Language", level: 75, category: "backend" },
+    { name: "MS Office (Word & PowerPoint)", level: 90, category: "design" },
+    { name: "Basic Computer Skills", level: 85, category: "other" },
+    // Leadership & Personal skills from CV
+    { name: "Strong Public Speaking Skills", level: 95, category: "personal" },
+    { name: "Leadership Mindset", level: 92, category: "personal" },
+    { name: "Team Coordination", level: 90, category: "personal" },
+    { name: "Effective Time Management", level: 88, category: "personal" },
+    { name: "Strong Communication & Debatable Skills", level: 94, category: "personal" }
   ],
   qualifications: [
     {
       id: "q1",
-      year: "2018 - 2022",
-      degree: "B.S. in Computer Science & Interaction Design",
-      institution: "Stanford University",
-      description: "Graduated with honors. Developed strong foundations in algorithms, graphic principles, human-centered systems, and graphics programming. Research thesis on spatial canvas interfaces."
+      year: "2023 - Present",
+      degree: "B.Tech in Biotechnology",
+      institution: "Invertis University, Bareilly",
+      description: "Currently pursuing. Focused on study of biotechnology, innovation, molecular biology and professional communication."
     },
     {
       id: "q2",
-      year: "2022 - 2023",
-      degree: "Specialized Residency in Creative Coding & Interactive Art",
-      institution: "Gray Area Foundation for the Arts",
-      description: "Rigorous one-year cohort building installations crossing interactive audio-reactive canvases, projection-mapping, and hardware-software interaction interfaces."
+      year: "Completed 2023",
+      degree: "Class 12 (PCB)",
+      institution: "Vinyaas Public School, Kanpur",
+      description: "Completed Grade 12 focusing on Physics, Chemistry, Biology, and foundational sciences."
     }
   ],
   work: [
     {
       id: "w1",
-      title: "Senior Interactive Developer",
-      company: "Atelier Web Systems",
-      period: "2023 - Present",
-      description: "Leading frontend visual development of internal design studios and user-facing interactive canvas dashboards. Reduced performance bottleneck on fluid asset rendering by 40% with advanced canvas caching.",
-      tags: ["React", "TypeScript", "Three.js", "Web Audio API", "Tailwind"],
-      type: "experience"
+      title: "Creator & Lead Developer",
+      company: "Next Step Learning Hub",
+      period: "2024 - Active",
+      description: "Designed and built an interactive web ecosystem for student guidance. Curated critical academic roadmaps, quality learning resources, and career portals into a unified clean space to remove information fragmentation for young learners.",
+      tags: ["React", "HTML5", "Tailwind CSS", "User Experience Design", "Vercel"],
+      type: "project",
+      link: "https://next-step-five-dusky.vercel.app"
     },
     {
       id: "w2",
-      title: "Full-Stack Web Architect",
-      company: "Prism & Pixel Agency",
-      period: "2022 - 2023",
-      description: "Designed customizable web visualizer pipelines for fine-art exhibition platforms. Integrated full-stack API networks serving 500k monthly visitors with optimized Redis configurations.",
-      tags: ["Node.js", "Express", "Next.js", "Tailwind CSS", "MongoDB"],
-      type: "experience"
+      title: "Interactive Nano Portfolio Developer",
+      company: "Creative Portfolio Lab",
+      period: "2026 - Present",
+      description: "A highly dynamic interactive portfolio engineered with slate-colored twilight backdrop colors, glowing neon panels, customized soft skill synergies matrices, and integrated 10s interactive video players.",
+      tags: ["React 18", "Motion Animation", "TypeScript", "Tailwind CSS", "Dynamic Forms"],
+      type: "project",
+      link: "https://ais-pre-sueteddyfaojg37wlwifdz-372950869524.asia-east1.run.app"
     },
     {
       id: "w3",
-      title: "Cosmic Cartography Visualizer",
-      company: "Personal Project",
-      period: "2024",
-      description: "An interactive stellar atlas depicting 20,000+ near-Earth star coordinates inside a smooth, custom-rendered 3D orbital system with real-time solar wind data injection.",
-      tags: ["React Three Fiber", "D3.js", "Vite", "WebAudio API", "Math.gl"],
-      type: "project",
-      link: "https://stars.ariachen.dev"
-    },
-    {
-      id: "w4",
-      title: "Lumina Gestural Interface",
-      company: "Research Project",
-      period: "2023",
-      description: "Open-source webcam gesture tracking engine translating hand-movement velocity directly into fluid typographic weight changes and audio filter triggers in real time.",
-      tags: ["MediaPipe", "React", "TypeScript", "Tailwind CSS", "WebSockets"],
-      type: "project",
-      link: "https://lumina.ariachen.dev"
+      title: "Sequence Analytics Research Intern",
+      company: "Biotech & Computing Studies",
+      period: "Academic Project",
+      description: "Studying algorithmic solutions for protein structure mapping and bio-data. Practiced using C and C++ to parser structural molecular biology logs efficiently.",
+      tags: ["C Programming", "C++", "Molecular Biology", "Algorithm Analysis"],
+      type: "experience"
     }
   ]
 };

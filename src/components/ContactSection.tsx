@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Send, CheckCircle2, Mail, Phone, MapPin, Github, Linkedin, Twitter, MessageSquare } from 'lucide-react';
+import { Send, CheckCircle2, Mail, Phone, MapPin, Github, Linkedin, Twitter, MessageSquare, Sparkles } from 'lucide-react';
 import { ContactMessage } from '../types';
 
 interface ContactSectionProps {
@@ -37,196 +37,171 @@ export default function ContactSection({ email, onSendMessage }: ContactSectionP
   };
 
   return (
-    <section id="contact" className="py-24 bg-[#FDFCFB] border-b border-[#1A1A1A] relative overflow-hidden">
+    <section id="contact" className="py-24 bg-[#050C1E] border-b border-[#1E293B] relative overflow-hidden cyber-grid">
+      <div className="absolute top-1/4 right-0 w-80 h-80 bg-purple-500/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-1/4 left-10 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         
-        {/* Editorial Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-[#1A1A1A] pb-6 mb-16">
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-[#1E293B] pb-6 mb-16">
           <div className="space-y-2">
-            <span className="block font-mono text-[10px] uppercase tracking-[0.3em] font-bold text-[#666]">
-              05 // DISPATCH COORDINATES
+            <span className="block font-mono text-[10px] uppercase tracking-[0.3em] font-bold text-cyan-400">
+              06 // DIALOGUE PORTS
             </span>
-            <h2 className="text-3xl sm:text-5xl font-serif italic text-[#1A1A1A]">
+            <h2 className="text-4xl sm:text-5xl font-mono uppercase tracking-tight text-white font-bold select-text">
               Connect & Inquire
             </h2>
           </div>
-          <div className="mt-4 md:mt-0 font-mono text-xs text-[#1A1A1A]/60 italic">
-            "Dialogue is the bridge between hypothesis and architecture"
+          <div className="mt-4 md:mt-0 font-mono text-xs text-slate-400">
+            "Initiating connection streams instantly"
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch max-w-5xl mx-auto">
-          {/* Left Column: Handshake Channels list */}
-          <div className="col-span-1 lg:col-span-5 flex flex-col justify-between space-y-8 bg-[#FDFCFB] p-6 md:p-8 rounded-none border border-[#1A1A1A]/30">
+          {/* Left Column: Contact info details - italicized per explicit user requirement */}
+          <div className="col-span-1 lg:col-span-5 flex flex-col justify-between space-y-8 bg-[#091124] p-6 md:p-8 rounded-none border border-[#1e293b]/60 nano-glow-magenta">
             <div className="space-y-6">
-              <h3 className="text-lg font-bold font-serif text-[#1A1A1A]">
+              <h3 className="text-lg font-bold font-mono uppercase tracking-wider text-purple-400">
                 Primary Channels
               </h3>
-              <p className="text-xs text-[#555] leading-relaxed font-sans">
-                Ready to review potential synergies or discuss a role? Feel free to initiate contact via the dispatch engine or coordinates.
+              <p className="text-xs text-slate-400 leading-relaxed font-sans italic">
+                Thank you for reviewing my details. Feel free to connect directly using any of my official channels listed below.
               </p>
 
-              {/* Coordinates List */}
-              <div className="space-y-4 pt-2">
+              {/* Coordinates List: ITALICIZED as requested */}
+              <div className="space-y-4 pt-2 font-mono italic">
                 <div className="flex items-center gap-4 group">
-                  <div className="w-9 h-9 bg-[#1A1A1A] text-white flex items-center justify-center transition-all group-hover:scale-95">
+                  <div className="w-9 h-9 bg-purple-950/40 border border-purple-800/40 text-purple-400 flex items-center justify-center transition-all group-hover:scale-95">
                     <Mail size={14} />
                   </div>
                   <div>
-                    <span className="block text-[9px] font-bold text-[#666] uppercase tracking-[0.15em] font-mono">
-                      Email Coordinates
+                    <span className="block text-[9px] font-bold text-slate-400 uppercase tracking-[0.15em] font-mono not-italic text-purple-400">
+                      Email address
                     </span>
-                    <a href={`mailto:${email}`} className="text-xs font-mono font-bold text-[#1A1A1A] hover:underline">
-                      {email || "info@example.com"}
+                    <a href={`mailto:${email || "omarradhika94@gmail.com"}`} className="text-xs font-bold text-slate-200 hover:text-cyan-400 transition-colors hover:underline">
+                      {email || "omarradhika94@gmail.com"}
                     </a>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-4 group">
-                  <div className="w-9 h-9 bg-[#1A1A1A] text-white flex items-center justify-center transition-all group-hover:scale-95">
+                  <div className="w-9 h-9 bg-purple-950/40 border border-purple-800/40 text-purple-400 flex items-center justify-center transition-all group-hover:scale-95">
                     <Phone size={14} />
                   </div>
                   <div>
-                    <span className="block text-[9px] font-bold text-[#666] uppercase tracking-[0.15em] font-mono">
-                      Voice Connection
+                    <span className="block text-[9px] font-bold text-slate-400 uppercase tracking-[0.15em] font-mono not-italic text-purple-400">
+                      Voice connection
                     </span>
-                    <span className="text-xs font-mono font-bold text-[#1A1A1A]">
-                      +1 (415) 555-8931
+                    <span className="text-xs font-bold text-slate-200">
+                      9956494942
                     </span>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-4 group">
-                  <div className="w-9 h-9 bg-[#1A1A1A] text-white flex items-center justify-center transition-all group-hover:scale-95">
+                  <div className="w-9 h-9 bg-purple-950/40 border border-purple-800/40 text-purple-400 flex items-center justify-center transition-all group-hover:scale-95">
                     <MapPin size={14} />
                   </div>
                   <div>
-                    <span className="block text-[9px] font-bold text-[#666] uppercase tracking-[0.15em] font-mono">
-                      Studio Coordinates
+                    <span className="block text-[9px] font-bold text-slate-400 uppercase tracking-[0.15em] font-mono not-italic text-purple-400">
+                      Coordinates
                     </span>
-                    <span className="text-xs font-mono font-bold text-[#1A1A1A] tracking-tight">
-                      San Francisco, California, USA
+                    <span className="text-xs font-bold text-slate-200 tracking-tight">
+                      Kanpur / Bareilly, India
                     </span>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Structured Social Networks */}
-            <div className="pt-6 border-t border-[#1A1A1A]/10">
-              <span className="block text-[9px] font-bold text-[#666] uppercase tracking-[0.2em] font-mono mb-4">
-                Digital Directories
+            {/* Social Accounts Links */}
+            <div className="pt-6 border-t border-slate-800/60 font-mono">
+              <span className="block text-[9px] font-bold text-purple-400 uppercase tracking-[0.2em] mb-4">
+                Digital nodes
               </span>
-              <div className="flex gap-2">
+              <div className="flex gap-2 flex-wrap">
                 <a
-                  href="https://github.com"
+                  href="https://github.com/Tejoo-world"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-8 h-8 rounded-none bg-transparent border border-[#1A1A1A]/30 flex items-center justify-center text-[#1A1A1A] hover:text-white hover:bg-[#1A1A1A] hover:border-[#1A1A1A] transition-all"
+                  className="w-10 h-10 rounded-none bg-transparent border border-slate-800 flex items-center justify-center text-slate-300 hover:text-cyan-400 hover:border-cyan-400 transition-all font-mono italic"
+                  title="GitHub Profile"
                 >
-                  <Github size={13} />
+                  <Github size={14} />
                 </a>
                 <a
-                  href="https://linkedin.com"
+                  href="https://www.linkedin.com/in/radhika-omar-9ab195380?utm_source=share_via&utm_content=profile&utm_medium=member_android"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-8 h-8 rounded-none bg-transparent border border-[#1A1A1A]/30 flex items-center justify-center text-[#1A1A1A] hover:text-white hover:bg-[#1A1A1A] hover:border-[#1A1A1A] transition-all"
+                  className="w-10 h-10 rounded-none bg-transparent border border-slate-800 flex items-center justify-center text-slate-300 hover:text-cyan-400 hover:border-cyan-400 transition-all font-mono italic"
+                  title="LinkedIn Profile"
                 >
-                  <Linkedin size={13} />
+                  <Linkedin size={14} />
                 </a>
                 <a
-                  href="https://twitter.com"
+                  href="https://next-step-five-dusky.vercel.app"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-8 h-8 rounded-none bg-transparent border border-[#1A1A1A]/30 flex items-center justify-center text-[#1A1A1A] hover:text-white hover:bg-[#1A1A1A] hover:border-[#1A1A1A] transition-all"
+                  className="w-10 h-10 rounded-none bg-transparent border border-slate-800 flex items-center justify-center text-slate-300 hover:text-cyan-400 hover:border-cyan-400 transition-all font-mono italic"
+                  title="Next Step Hub Website"
                 >
-                  <Twitter size={13} />
+                  <Sparkles size={14} />
                 </a>
               </div>
             </div>
           </div>
 
-          {/* Right Column: Interactive Form */}
-          <div className="col-span-1 lg:col-span-7 bg-[#FDFCFB] p-6 md:p-8 rounded-none border border-[#1A1A1A]/30">
-            <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#666] mb-6 font-mono">
-              DISPATCH SIGNAL INQUIRY
-            </h3>
+          {/* Right Column: Floating Thank You Banner as explicitly requested */}
+          <div className="col-span-1 lg:col-span-7 bg-[#091124] p-8 rounded-none border border-[#1e293b]/60 nano-glow-cyan flex flex-col items-center justify-center text-center overflow-hidden relative min-h-[350px]">
+            {/* Animated biological/cyber floats in the background */}
+            <motion.div
+              animate={{
+                scale: [1, 1.1, 1],
+                rotate: [0, 180, 360],
+              }}
+              transition={{
+                duration: 25,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+              className="absolute w-60 h-60 border border-cyan-500/10 rounded-full flex items-center justify-center pointer-events-none"
+            >
+              <div className="w-48 h-48 border border-dashed border-purple-500/10 rounded-full" />
+            </motion.div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="block text-[9px] font-bold text-[#666] uppercase tracking-[0.15em] mb-1.5 font-mono">
-                  Full Identification / Affiliation
-                </label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g., Katherine Johnson"
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full bg-transparent border border-[#1A1A1A]/30 rounded-none px-3.5 py-2.5 text-xs outline-none focus:border-[#1A1A1A] text-[#1A1A1A] font-mono tracking-wider placeholder-[#888]"
-                />
+            {/* Floating content */}
+            <motion.div
+              animate={{
+                y: [0, -10, 0],
+              }}
+              transition={{
+                duration: 4,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+              className="space-y-6 relative z-10"
+            >
+              <div className="inline-block px-3 py-1 bg-cyan-950/40 border border-cyan-800/40 text-cyan-400 font-mono text-[9px] uppercase tracking-[0.25em] mb-2 rounded-none">
+                ✨ SIGNAL OF GRATITUDE
               </div>
+              
+              <h3 className="text-5xl sm:text-6xl font-mono uppercase tracking-widest text-[#FFF] font-extrabold select-text">
+                THANK <span className="text-cyan-400 font-serif italic font-normal tracking-wide lowercase">you</span>
+              </h3>
 
-              <div>
-                <label className="block text-[9px] font-bold text-[#666] uppercase tracking-[0.15em] mb-1.5 font-mono">
-                  Return Communication Email
-                </label>
-                <input
-                  type="email"
-                  required
-                  placeholder="e.g., katherine@nasa.gov"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full bg-transparent border border-[#1A1A1A]/30 rounded-none px-3.5 py-2.5 text-xs outline-none focus:border-[#1A1A1A] text-[#1A1A1A] font-mono tracking-wider placeholder-[#888]"
-                />
+              <div className="w-16 h-[1px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent mx-auto my-4" />
+
+              <p className="text-slate-300 font-sans text-sm max-w-sm mx-auto leading-relaxed italic">
+                "I appreciate your time spent reviewing my academic, leadership, and digital credentials. Let's create impactful solutions together."
+              </p>
+
+              <div className="flex gap-2 justify-center pt-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+                <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse [animation-delay:0.2s]" />
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse [animation-delay:0.4s]" />
               </div>
-
-              <div>
-                <label className="block text-[9px] font-bold text-[#666] uppercase tracking-[0.15em] mb-1.5 font-mono">
-                  Dialogue Inquiries & Proposals
-                </label>
-                <textarea
-                  required
-                  rows={4}
-                  placeholder="Type your message proposals, coordination schedules, or feedback details..."
-                  value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  className="w-full bg-transparent border border-[#1A1A1A]/30 rounded-none px-3.5 py-2.5 text-xs outline-none focus:border-[#1A1A1A] text-[#1A1A1A] font-mono tracking-wider placeholder-[#888] resize-none"
-                />
-              </div>
-
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full inline-flex items-center justify-center gap-2 bg-[#1A1A1A] border border-[#1A1A1A] text-white font-bold rounded-none py-3 text-xs tracking-[0.15em] uppercase hover:bg-transparent hover:text-[#1A1A1A] transition-all disabled:opacity-50 cursor-pointer"
-              >
-                {isSubmitting ? (
-                  <>
-                    <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
-                    <span>Broadcasting Signal...</span>
-                  </>
-                ) : (
-                  <>
-                    <Send size={13} />
-                    <span>Broadcast Message Log</span>
-                  </>
-                )}
-              </button>
-
-              <AnimatePresence>
-                {formSubmitted && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 10 }}
-                    className="flex items-center gap-2 bg-[#F5F2EF] border border-[#1A1A1A] p-4 rounded-none text-[#1A1A1A] text-[11px] font-mono"
-                  >
-                    <CheckCircle2 size={14} className="text-[#1A1A1A] flex-shrink-0" />
-                    <span>Signal logged successfully. Message is deposited onto local repository ledgers.</span>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </form>
+            </motion.div>
           </div>
         </div>
       </div>

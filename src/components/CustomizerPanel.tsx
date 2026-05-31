@@ -144,28 +144,28 @@ export default function CustomizerPanel({ portfolioData, onSave, onClose, onRese
           animate={{ x: 0 }}
           exit={{ x: '100%' }}
           transition={{ type: 'spring', damping: 25, stiffness: 220 }}
-          className="w-screen max-w-lg bg-[#1A1A1A] text-[#F5F2EF] flex flex-col shadow-2xl h-full border-l border-[#1A1A1A]"
+          className="w-screen max-w-lg bg-[#050C1E] text-slate-200 flex flex-col shadow-2xl h-full border-l border-[#1e293b]"
         >
           {/* Header Panel */}
-          <div className="px-5 py-5 border-b border-[#333] flex items-center justify-between">
+          <div className="px-5 py-5 border-b border-[#1e293b] flex items-center justify-between">
             <div>
-              <h2 className="text-base font-bold font-serif italic text-white flex items-center gap-1.5">
+              <h2 className="text-base font-bold font-mono uppercase text-cyan-400 flex items-center gap-1.5">
                 Customize Portfolio
               </h2>
-              <p className="text-[10px] text-[#999] font-mono uppercase tracking-[0.1em] mt-0.5">
+              <p className="text-[10px] text-slate-400 font-mono uppercase tracking-[0.1em] mt-0.5">
                 Update credentials to dynamically rebuild your display.
               </p>
             </div>
             <button
               onClick={onClose}
-              className="text-[#999] hover:text-white hover:bg-[#333] p-1.5 rounded-none transition-colors cursor-pointer"
+              className="text-slate-400 hover:text-white hover:bg-slate-800 p-1.5 rounded-none transition-colors cursor-pointer"
             >
               <X size={18} />
             </button>
           </div>
 
           {/* Sub Navigation tabs */}
-          <div className="px-4 py-2 bg-[#1A1A1A] border-b border-[#333] flex items-center justify-between gap-1">
+          <div className="px-4 py-2 bg-[#091124] border-b border-[#1e293b] flex items-center justify-between gap-1">
             <div className="flex gap-1 overflow-x-auto">
               {(['general', 'skills', 'education', 'experience'] as const).map((tab) => (
                 <button
@@ -174,8 +174,8 @@ export default function CustomizerPanel({ portfolioData, onSave, onClose, onRese
                   onClick={() => setActiveTab(tab)}
                   className={`px-3 py-1 text-[10px] uppercase font-mono tracking-[0.1em] font-bold rounded-none whitespace-nowrap transition-all cursor-pointer ${
                     activeTab === tab
-                      ? 'bg-white text-[#1A1A1A]'
-                      : 'text-[#999] hover:text-white hover:bg-[#333]'
+                      ? 'bg-cyan-500 text-black shadow-[0_0_8px_#22d3ee]'
+                      : 'text-slate-450 hover:text-white hover:bg-[#111e38]'
                   }`}
                 >
                   {tab}
@@ -186,7 +186,7 @@ export default function CustomizerPanel({ portfolioData, onSave, onClose, onRese
             <button
               type="button"
               onClick={onReset}
-              className="text-[#999] hover:text-white text-[9px] uppercase tracking-wider font-mono flex items-center gap-1 hover:underline font-bold cursor-pointer"
+              className="text-cyan-405 hover:text-white text-[9px] uppercase tracking-wider font-mono flex items-center gap-1 hover:underline font-bold cursor-pointer"
               title="Reset configuration template data"
             >
               <RotateCcw size={11} />
@@ -542,18 +542,18 @@ export default function CustomizerPanel({ portfolioData, onSave, onClose, onRese
           </div>
 
           {/* Footer Save Changes Panel */}
-          <div className="px-5 py-4 border-t border-[#333] bg-[#111] flex gap-2">
+          <div className="px-5 py-4 border-t border-[#1e293b] bg-[#030712] flex gap-2">
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 border border-[#444] text-[#CCC] hover:text-white hover:bg-[#222] text-[10px] font-bold uppercase tracking-wider rounded-none py-3 cursor-pointer text-center"
+              className="flex-1 border border-[#1e293b] text-slate-400 hover:text-white hover:bg-slate-900 text-[10px] font-bold uppercase tracking-wider rounded-none py-3 cursor-pointer text-center"
             >
               Cancel
             </button>
             <button
               type="submit"
               form="portfolio-customizer-form"
-              className="flex-1 bg-white hover:bg-[#F5F2EF] text-[#1A1A1A] font-bold rounded-none py-3 text-[10px] uppercase tracking-wider flex items-center justify-center gap-1.5 cursor-pointer shadow-md transition-all border border-white"
+              className="flex-1 bg-cyan-500 hover:bg-cyan-400 text-black font-bold rounded-none py-3 text-[10px] uppercase tracking-wider flex items-center justify-center gap-1.5 cursor-pointer shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-all border border-cyan-400"
             >
               <Save size={13} />
               Save Changes

@@ -1,6 +1,60 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Briefcase, FolderGit2, Link, ArrowUpRight, Code, Tag } from 'lucide-react';
+import { Briefcase, FolderGit2, ArrowUpRight, Play, Pause, RotateCcw, Volume2, Video, Upload, Trash2, Loader2 } from 'lucide-react';
+
+// Simple IndexedDB Utility for storing large video files in browser
+const DB_NAME = 'ProjectVideoDB';
+const STORE_NAME = 'videos';
+
+function openVideoDB(): Promise<IDBDatabase> {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open(DB_NAME, 1);
+    request.onupgradeneeded = () => {
+      const db = request.result;
+      if (!db.objectStoreNames.contains(STORE_NAME)) {
+        db.createObjectStore(STORE_NAME);
+      }
+    };
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+}
+
+function saveVideoBlob(projectId: string, blob: Blob): Promise<void> {
+  return openVideoDB().then((db) => {
+    return new Promise<void>((resolve, reject) => {
+      const tx = db.transaction(STORE_NAME, 'readwrite');
+      const store = tx.objectStore(STORE_NAME);
+      store.put(blob, projectId);
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error);
+    });
+  });
+}
+
+function getVideoBlob(projectId: string): Promise<Blob | null> {
+  return openVideoDB().then((db) => {
+    return new Promise<Blob | null>((resolve, reject) => {
+      const tx = db.transaction(STORE_NAME, 'readonly');
+      const store = tx.objectStore(STORE_NAME);
+      const request = store.get(projectId);
+      request.onsuccess = () => resolve(request.result || null);
+      request.onerror = () => reject(request.error);
+    });
+  });
+}
+
+function deleteVideoBlob(projectId: string): Promise<void> {
+  return openVideoDB().then((db) => {
+    return new Promise<void>((resolve, reject) => {
+      const tx = db.transaction(STORE_NAME, 'readwrite');
+      const store = tx.objectStore(STORE_NAME);
+      store.delete(projectId);
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error);
+    });
+  });
+}
 
 interface WorkSectionProps {
   work: any[];
@@ -15,33 +69,36 @@ export default function WorkSection({ work }: WorkSectionProps) {
   });
 
   return (
-    <section id="work" className="py-24 bg-[#FDFCFB] border-b border-[#1A1A1A] relative overflow-hidden">
+    <section id="work" className="py-24 bg-[#050C1E] border-b border-[#1E293B] relative overflow-hidden cyber-grid">
+      <div className="absolute top-10 left-10 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-10 right-10 w-80 h-80 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         
-        {/* Editorial Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-[#1A1A1A] pb-6 mb-16">
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-[#1E293B] pb-6 mb-16">
           <div className="space-y-2">
-            <span className="block font-mono text-[10px] uppercase tracking-[0.3em] font-bold text-[#666]">
-              04 // WORK & RETROSPECTIVES
+            <span className="block font-mono text-[10px] uppercase tracking-[0.3em] font-bold text-cyan-400">
+              04 // WORK & INNOVATIVE DESIGN WORK
             </span>
-            <h2 className="text-3xl sm:text-5xl font-serif italic text-[#1A1A1A]">
+            <h2 className="text-4xl sm:text-5xl font-mono uppercase tracking-tight text-white font-bold select-text">
               Selected Showcases
             </h2>
           </div>
-          <div className="mt-4 md:mt-0 font-mono text-xs text-[#1A1A1A]/60 italic">
-            "Every artifact is a testament to persistent inquiry"
+          <div className="mt-4 md:mt-0 font-mono text-xs text-slate-400">
+            "Experience chronicles & 10s video demonstration previews"
           </div>
         </div>
 
         {/* Filter Switcher */}
         <div className="flex justify-center mb-16">
-          <div className="inline-flex bg-[#F5F2EF] border border-[#1A1A1A]/25 rounded-none p-1 gap-1">
+          <div className="inline-flex bg-[#091124] border border-[#1e293b] p-1.5 gap-1.5 rounded-none nano-glow-cyan">
             <button
               onClick={() => setFilter('all')}
               className={`px-4 py-1.5 rounded-none text-[10px] font-bold tracking-[0.15em] uppercase transition-all cursor-pointer ${
                 filter === 'all'
-                  ? 'bg-[#1A1A1A] text-white'
-                  : 'text-[#666] hover:text-[#1A1A1A]'
+                  ? 'bg-cyan-500 text-black font-bold shadow-[0_0_10px_rgba(6,182,212,0.4)]'
+                  : 'text-slate-400 hover:text-white'
               }`}
             >
               All Artifacts
@@ -50,21 +107,21 @@ export default function WorkSection({ work }: WorkSectionProps) {
               onClick={() => setFilter('experience')}
               className={`px-4 py-1.5 rounded-none text-[10px] font-bold tracking-[0.15em] uppercase transition-all cursor-pointer ${
                 filter === 'experience'
-                  ? 'bg-[#1A1A1A] text-white'
-                  : 'text-[#666] hover:text-[#1A1A1A]'
+                  ? 'bg-cyan-500 text-black font-bold shadow-[0_0_10px_rgba(6,182,212,0.4)]'
+                  : 'text-slate-400 hover:text-white'
               }`}
             >
-              Industry Experience
+              Experience
             </button>
             <button
               onClick={() => setFilter('project')}
               className={`px-4 py-1.5 rounded-none text-[10px] font-bold tracking-[0.15em] uppercase transition-all cursor-pointer ${
                 filter === 'project'
-                  ? 'bg-[#1A1A1A] text-white'
-                  : 'text-[#666] hover:text-[#1A1A1A]'
+                  ? 'bg-cyan-500 text-black font-bold shadow-[0_0_10px_rgba(6,182,212,0.4)]'
+                  : 'text-slate-400 hover:text-white'
               }`}
             >
-              Creative Labs
+              Creative Labs Vdo
             </button>
           </div>
         </div>
@@ -78,62 +135,70 @@ export default function WorkSection({ work }: WorkSectionProps) {
             {filteredWork.map((item, index) => (
               <motion.div
                 layout
-                initial={{ opacity: 0, scale: 0.98, y: 15 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.98, y: 15 }}
+                initial={{ opacity: 0, scale: 0.96 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.3 }}
                 key={item.id || index}
-                className="bg-[#FDFCFB] p-6 rounded-none border border-[#1A1A1A]/30 flex flex-col justify-between hover:border-[#1A1A1A] hover:bg-[#F5F2EF] transition-all duration-300 group relative overflow-hidden"
+                className="bg-[#091124] p-6 border border-[#1e293b]/60 flex flex-col justify-between hover:border-cyan-500/50 hover:bg-[#0c1630] transition-all duration-300 group relative overflow-hidden nano-glow-cyan"
               >
                 <div>
-                  {/* Top line metadata description */}
-                  <div className="flex items-center justify-between mb-4 text-xs">
-                    <span className="inline-flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-wider border border-[#1A1A1A]/60 px-2 py-0.5 text-[#1A1A1A] bg-transparent">
-                      {item.type === 'experience' ? 'Employment Record' : 'Lab Prototype'}
+                  {/* Top metadata tags */}
+                  <div className="flex items-center justify-between mb-4 text-xs font-mono">
+                    <span className="inline-flex items-center gap-1.5 text-[9px] uppercase tracking-widest border border-cyan-800 bg-cyan-950/20 px-2 py-0.5 text-cyan-400">
+                      {item.type === 'experience' ? 'Employment Record' : 'Active Innovation Code'}
                     </span>
-                    <span className="font-serif font-bold italic text-[11px] text-[#666]">
+                    <span className="text-[11px] text-slate-400 font-bold uppercase tracking-wider">
                       {item.period}
                     </span>
                   </div>
 
-                  {/* Title and Company Name */}
+                  {/* Title and Organization name */}
                   <div className="space-y-1 mb-4">
-                    <h3 className="text-xl font-bold font-serif text-[#1A1A1A] leading-snug select-text group-hover:italic">
+                    <h3 className="text-xl font-bold font-mono text-slate-200 tracking-wide uppercase">
                       {item.title}
                     </h3>
-                    <span className="block text-[10px] font-bold text-[#666] uppercase tracking-[0.15em] font-mono">
+                    <span className="block text-[10.5px] font-bold text-cyan-400 uppercase tracking-[0.2em] font-mono">
                       {item.company}
                     </span>
                   </div>
 
-                  {/* Body description text */}
-                  <p className="text-[#333] text-xs md:text-sm leading-relaxed mb-6 whitespace-pre-wrap select-text font-sans">
+                  {/* Body details text info */}
+                  <p className="text-slate-350 text-xs md:text-sm leading-relaxed mb-6 whitespace-pre-wrap select-text font-sans">
                     {item.description}
                   </p>
                 </div>
 
                 <div>
-                  {/* Technology Tags footer */}
-                  <div className="flex flex-wrap gap-1.5 mb-5 border-t border-[#1A1A1A]/10 pt-4">
-                    {item.tags.map((tag) => (
+                  {/* 10-Second Interactive Demonstration Video Player (Mandatory Requirement) */}
+                  {item.type === 'project' && (
+                    <div className="mb-6">
+                      <CompactVideoPlayer title={item.title} projectId={item.id} />
+                    </div>
+                  )}
+
+                  {/* Technologies utilized badges */}
+                  <div className="flex flex-wrap gap-1.5 mb-5 border-t border-slate-800/80 pt-4">
+                    {item.tags.map((tag: string) => (
                       <span
                         key={tag}
-                        className="inline-flex items-center gap-1 text-[9px] font-mono font-semibold text-[#1A1A1A] bg-transparent px-2.5 py-0.5 rounded-none border border-[#1A1A1A]/20 hover:bg-[#1A1A1A] hover:text-white transition-colors cursor-default"
+                        className="inline-flex items-center gap-1 text-[9px] font-mono font-bold text-slate-300 bg-transparent px-2 py-0.5 rounded-none border border-slate-800 hover:border-cyan-400 hover:text-cyan-400 transition-colors cursor-default"
                       >
                         {tag}
                       </span>
                     ))}
                   </div>
 
-                  {/* External Project Link Button */}
+                  {/* Links layout links */}
                   {item.type === 'project' && item.link && (
                     <a
                       href={item.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-xs font-serif italic font-bold text-[#1A1A1A] hover:underline cursor-pointer group/link"
+                      className="inline-flex items-center gap-1 text-xs font-mono tracking-wider font-bold text-cyan-400 hover:text-cyan-300 cursor-pointer group/link uppercase"
                     >
-                      <span>Explore Live Build</span>
+                      <span>Explore Production Build</span>
                       <ArrowUpRight size={13} className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
                     </a>
                   )}
@@ -144,11 +209,274 @@ export default function WorkSection({ work }: WorkSectionProps) {
         </motion.div>
 
         {filteredWork.length === 0 && (
-          <div className="text-center py-12 text-[#666] font-mono text-xs">
-            <p>No active ledger records corresponding to this classification tab.</p>
+          <div className="text-center py-16 bg-[#091124] border border-[#1e293b] mt-12 rounded-none">
+            <p className="text-slate-400 font-mono text-xs">No active matching archives in current database classification log.</p>
           </div>
         )}
       </div>
     </section>
+  );
+}
+
+// Sub Component: Highly Custom 10-Second Video Demo Hardware-Emulator Player
+function CompactVideoPlayer({ title, projectId }: { title: string; projectId: string }) {
+  const [isPlaying, setIsPlaying] = React.useState(false);
+  const [currentTime, setCurrentTime] = React.useState(0);
+  const [customVideoUrl, setCustomVideoUrl] = React.useState<string | null>(null);
+  const [isDbLoading, setIsDbLoading] = React.useState(true);
+  const videoRef = React.useRef<HTMLVideoElement | null>(null);
+  const fileInputRef = React.useRef<HTMLInputElement | null>(null);
+
+  // Load custom video from IndexedDB on mount
+  React.useEffect(() => {
+    let activeObjUrl: string | null = null;
+    getVideoBlob(projectId)
+      .then((blob) => {
+        if (blob) {
+          activeObjUrl = URL.createObjectURL(blob);
+          setCustomVideoUrl(activeObjUrl);
+        }
+      })
+      .catch((e) => console.error("Error reading video from DB:", e))
+      .finally(() => setIsDbLoading(false));
+
+    return () => {
+      if (activeObjUrl) {
+        URL.revokeObjectURL(activeObjUrl);
+      }
+    };
+  }, [projectId]);
+
+  // Sync state loop progress timer
+  React.useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (isPlaying) {
+      interval = setInterval(() => {
+        setCurrentTime((prev) => {
+          if (videoRef.current) {
+            const duration = videoRef.current.duration || 10;
+            const current = videoRef.current.currentTime;
+            if (current >= duration || prev >= duration) {
+              videoRef.current.currentTime = 0;
+              return 0;
+            }
+            return Number(current.toFixed(1));
+          }
+          if (prev >= 10) {
+            return 0;
+          }
+          return Number((prev + 0.1).toFixed(1));
+        });
+      }, 100);
+    }
+    return () => clearInterval(interval);
+  }, [isPlaying]);
+
+  const togglePlayback = () => {
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play().catch((e) => console.log("Auto-start video stream active callback:", e));
+      }
+    }
+    setIsPlaying(!isPlaying);
+  };
+
+  const handleReset = () => {
+    if (videoRef.current) {
+      videoRef.current.currentTime = 0;
+    }
+    setCurrentTime(0);
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setIsDbLoading(true);
+      try {
+        await saveVideoBlob(projectId, file);
+        if (customVideoUrl) {
+          URL.revokeObjectURL(customVideoUrl);
+        }
+        const newUrl = URL.createObjectURL(file);
+        setCustomVideoUrl(newUrl);
+        setIsPlaying(false);
+        setCurrentTime(0);
+        if (videoRef.current) {
+          videoRef.current.load();
+        }
+      } catch (e) {
+        console.error("Failed to save custom video demonstration:", e);
+      } finally {
+        setIsDbLoading(false);
+      }
+    }
+  };
+
+  const handleDeleteCustomVideo = async () => {
+    setIsDbLoading(true);
+    try {
+      await deleteVideoBlob(projectId);
+      if (customVideoUrl) {
+        URL.revokeObjectURL(customVideoUrl);
+      }
+      setCustomVideoUrl(null);
+      setIsPlaying(false);
+      setCurrentTime(0);
+      if (videoRef.current) {
+        videoRef.current.load();
+      }
+    } catch (e) {
+      console.error("Failed to reset custom video demonstration:", e);
+    } finally {
+      setIsDbLoading(false);
+    }
+  };
+
+  // Beautiful cyber stock fallback video loop
+  const defaultVideoUrl = "https://player.vimeo.com/external/371433846.sd.mp4?s=236da2f3c02afdc2bf03d98be2c90069f1bf512e&profile_id=139&oauth2_token_id=57447761";
+
+  const videoUrlToUse = customVideoUrl || defaultVideoUrl;
+
+  // Calculate percentage of current timeline
+  const durationGoal = videoRef.current?.duration || 10;
+  const percentage = (currentTime / durationGoal) * 100;
+
+  return (
+    <div className="relative border border-[#1e293b] bg-[#030712] overflow-hidden rounded-none p-1 font-mono transition-all hover:border-cyan-500/30 group/player shadow-inner">
+      <input 
+        type="file" 
+        ref={fileInputRef} 
+        onChange={handleFileChange} 
+        accept="video/mp4, video/webm, video/quicktime, video/*" 
+        className="hidden" 
+      />
+
+      {/* Playback Container Frame */}
+      <div className="relative aspect-video w-full bg-slate-950 overflow-hidden border border-slate-900 flex items-center justify-center">
+        {isDbLoading ? (
+          <div className="absolute inset-0 bg-slate-950/90 z-20 flex flex-col items-center justify-center gap-2">
+            <Loader2 className="w-6 h-6 text-cyan-400 animate-spin" />
+            <span className="text-[9px] text-cyan-400 tracking-wider">LOADING VIDEO...</span>
+          </div>
+        ) : null}
+
+        {/* Core Video Player */}
+        <video
+          ref={videoRef}
+          src={videoUrlToUse}
+          loop
+          muted
+          playsInline
+          className={`absolute inset-0 w-full h-full object-cover opacity-80 group-hover/player:scale-103 transition-transform duration-700 ${
+            isPlaying ? 'brightness-110 saturate-120' : 'brightness-50 grayscale contrast-125'
+          }`}
+        />
+
+        {/* Scanning grid shader glass */}
+        <div className="absolute inset-0 pointer-events-none z-10 bg-scanlines mix-blend-overlay opacity-30 bg-gradient-to-t from-[#020617]/40 to-transparent" />
+
+        {/* Ambient Overlay metadata tags */}
+        <div className="absolute top-2 left-2 z-25 flex items-center gap-2 bg-black/75 px-2 py-1 text-[8px] font-bold text-cyan-400 tracking-wider uppercase border border-cyan-500/20">
+          <span className={`w-1.5 h-1.5 rounded-full bg-red-400 ${isPlaying ? 'animate-ping' : ''}`}></span>
+          <span>{customVideoUrl ? "Uploaded Demonstration" : "Default 10-Sec Demo Video"}</span>
+        </div>
+
+        <div className="absolute top-2 right-2 z-25 bg-black/75 px-2 py-0.5 text-[8px] font-bold text-slate-400 tracking-widest border border-slate-800">
+          MAX // {Math.floor(videoRef.current?.duration || 10)}s
+        </div>
+
+        {/* Animated Sound Waveforms Simulator (only operates while playing!) */}
+        {isPlaying && (
+          <div className="absolute bottom-2 left-3 z-25 flex items-end gap-[2px] h-6">
+            {[1, 2, 3, 4, 5, 4, 3, 2, 1, 3, 5, 2, 4, 2, 5].map((val, idx) => (
+              <motion.div
+                key={idx}
+                animate={{ height: [`${val * 3}px`, `${Math.random() * 20 + 4}px`, `${val * 3}px`] }}
+                transition={{ repeat: Infinity, duration: 0.8 + idx * 0.05, ease: 'easeInOut' }}
+                className="w-[2px] bg-cyan-400 shadow-[0_0_5px_rgba(6,182,212,0.6)]"
+              />
+            ))}
+          </div>
+        )}
+
+        {/* Centered Large Play Overlay Trigger */}
+        <AnimatePresence>
+          {!isPlaying && !isDbLoading && (
+            <motion.button
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              onClick={togglePlayback}
+              className="absolute z-19 w-12 h-12 bg-cyan-500 hover:bg-cyan-400 text-black flex items-center justify-center rounded-none shadow-[0_0_15px_rgba(6,182,212,0.6)] transition-all transform hover:scale-110 active:scale-95 cursor-pointer"
+            >
+              <Play size={16} fill="black" />
+            </motion.button>
+          )}
+        </AnimatePresence>
+      </div>
+
+      {/* Playback Controls Footer Drawer panel */}
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between px-3 py-2 bg-[#091124] text-[9px] border-t border-slate-900 gap-2">
+        <div className="flex items-center gap-3">
+          <button
+            onClick={togglePlayback}
+            className="text-cyan-400 hover:text-white transition-colors cursor-pointer text-[10px]"
+            title={isPlaying ? "Pause Stream" : "Play Stream"}
+          >
+            {isPlaying ? <Pause size={12} fill="currentColor" /> : <Play size={12} fill="currentColor" />}
+          </button>
+          <button
+            onClick={handleReset}
+            className="text-slate-400 hover:text-cyan-400 transition-colors cursor-pointer"
+            title="Reset Loop Playback"
+          >
+            <RotateCcw size={11} />
+          </button>
+          {/* Timeline counter indicator */}
+          <span className="text-slate-400 font-mono">
+            00:{(currentTime < 10 ? "0" : "") + Math.floor(currentTime)} / 00:{Math.floor(videoRef.current?.duration || 10)}
+          </span>
+        </div>
+
+        {/* Interactive Linear Progress Slider */}
+        <div className="flex-1 h-1.5 bg-slate-950 sm:mx-2 relative overflow-hidden border border-slate-900 rounded-none">
+          <div
+            className="h-full bg-cyan-500 shadow-[0_0_5px_rgba(6,182,212,0.8)] transition-all duration-100 ease-linear"
+            style={{ width: `${percentage}%` }}
+          />
+        </div>
+
+        {/* Dynamic Video Action Buttons */}
+        <div className="flex items-center gap-2 justify-end">
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            className="px-2 py-1 bg-cyan-950/30 hover:bg-cyan-900/30 border border-cyan-800 hover:border-cyan-400 text-cyan-400 text-[8px] uppercase tracking-wider flex items-center gap-1 cursor-pointer transition-all"
+            title="Upload custom scientific video illustration"
+          >
+            <Upload size={10} />
+            <span>Upload MP4</span>
+          </button>
+
+          {customVideoUrl && (
+            <button
+              type="button"
+              onClick={handleDeleteCustomVideo}
+              className="p-1 bg-red-950/20 hover:bg-red-900/30 border border-red-900 hover:border-red-500 text-red-400 hover:text-red-305 transition-all cursor-pointer"
+              title="Reset to Stock Simulation"
+            >
+              <Trash2 size={10} />
+            </button>
+          )}
+
+          <div className="hidden md:flex items-center gap-1 text-slate-500">
+            <Volume2 size={10} className="text-cyan-500/60" />
+            <span className="text-[8px] uppercase tracking-wider text-cyan-400/80 font-bold">1080P</span>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
